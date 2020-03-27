@@ -1,8 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"log"
+	"net/http"
+)
 
 func main() {
-	data := getOverallData()
-	fmt.Println(data)
+	http.HandleFunc("/countryData", getCountryOverallDataHandler)
+	http.HandleFunc("/overallData", getOverallDataHandler)
+
+	// start the server on port 8000
+	log.Fatal(http.ListenAndServe(":8000", nil))
 }
