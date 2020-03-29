@@ -25,6 +25,13 @@ type CountryData struct {
 	Date     string `json:"date"`
 }
 
+type CountryHistory struct {
+	NewCases   int64
+	NewDeaths  int64
+	Recoveries int64
+	Deaths     int64
+}
+
 func getOverallData() (OverallData, error) {
 	response, err := http.Get("https://thevirustracker.com/free-api?global=stats")
 
@@ -64,13 +71,8 @@ func getCountryData(country string) (CountryData, error) {
 	}, nil
 }
 
-func getCountryHistory(country string) string {
-	response, err := http.Get("https://thevirustracker.com/free-api?countryTimeline=" + country)
-
-	if err != nil {
-		fmt.Println("Request for overall  country data failed")
-	}
-
+func getCountryHistory(country string) interface{} {
+	response, _ := http.Get("https://thevirustracker.com/free-api?countryTimeline=" + country)
 	data, _ := ioutil.ReadAll(response.Body)
-	return gjson.Get(string(data), "timelineitems").String()
+	return gjson.Get(string(data), "timelineitems").Value()
 }

@@ -33,3 +33,18 @@ func getCountryOverallDataHandler(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(data)
 }
+
+func getCountryHistoryHandler(w http.ResponseWriter, req *http.Request) {
+	var country string
+	param := req.URL.Query().Get("Country")
+
+	if param == "" {
+		http.Error(w, "", http.StatusBadRequest)
+		return
+	}
+	country = param
+	data := getCountryHistory(country)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(data)
+}
