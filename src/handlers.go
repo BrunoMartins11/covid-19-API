@@ -6,6 +6,10 @@ import (
 )
 
 func getOverallDataHandler(w http.ResponseWriter, req *http.Request) {
+	//Allow CORS here By * or specific origin
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	var data OverallData
 	data, error := getOverallData()
 	if error != nil {
@@ -16,6 +20,10 @@ func getOverallDataHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func getCountryOverallDataHandler(w http.ResponseWriter, req *http.Request) {
+	//Allow CORS here By * or specific origin
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	var country string
 	param := req.URL.Query().Get("Country")
 
@@ -35,6 +43,10 @@ func getCountryOverallDataHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func getCountryHistoryHandler(w http.ResponseWriter, req *http.Request) {
+	//Allow CORS here By * or specific origin
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	var country string
 	param := req.URL.Query().Get("Country")
 
