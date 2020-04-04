@@ -2,6 +2,8 @@ package main
 
 import (
 	"encoding/json"
+	"io"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -59,4 +61,12 @@ func getCountryHistoryHandler(w http.ResponseWriter, req *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(data)
+}
+func getCountries(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	data, _ := ioutil.ReadFile("./assets/countries.json")
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.WriteHeader(http.StatusOK)
+	io.WriteString(w, string(data))
 }
