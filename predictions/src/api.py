@@ -1,12 +1,16 @@
-from flask import Flask, request
+from flask import Flask, request,send_from_directory
+import os
 
 app = Flask(__name__)
 
-@app.route('/csv', methods = ['GET'])
+dir = os.path.dirname(__file__)
+
+@app.route('/country.csv', methods = ['GET'])
 def country_csv():
-    req_data = request.get_json()
-    countries = req_data.keys()
-    print(countries)
-    return "Json received"
+    if (request.data):
+        req_data = request.get_json()
+        countries = req_data.keys()
+        print(countries)
+        return send_from_directory(dir, 'ola.csv', as_attachment=True)
 
 app.run(debug=True, port=5000)
