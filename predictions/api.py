@@ -1,6 +1,10 @@
 from flask import Flask, request,send_from_directory
 import os
 
+from Models.ArimaModel import ArimaModel
+from Models.ExponentialSmootheningModel import ExponentialSmootheningModel
+from Models.ProphetModel import ProphetModel
+
 app = Flask(__name__)
 
 dir = os.path.dirname(__file__)
