@@ -1,9 +1,9 @@
 #PROPHET
 from fbprophet import Prophet
 
-def predict_with_prophet(data,days=15, code='PT', y='Total_Cases'):
-    data_prophet = data[[y+code]]
-    data_prophet.reset_index(inplace=True)
+def predict_with_prophet(dataset,days=15, code='PT', y='Total_Cases'):
+    tmp = dataset[[y+code]]
+    data_prophet = tmp.reset_index()
     data_prophet = data_prophet.rename(columns={'Date': 'ds', y+code: 'y'})
     
     model_prophet = Prophet(changepoint_prior_scale=0.1)
@@ -18,7 +18,7 @@ def predict_with_prophet(data,days=15, code='PT', y='Total_Cases'):
     dt['Date'] = dt['Date'].dt.strftime('%m/%d/%Y')
     dt.set_index('Date', inplace=True, drop=True)
     
-    tmpdata = data[[y+code]]
+    tmpdata = dataset[[y+code]]
     tmpdata = tmpdata.append(dt)
 
     return tmpdata
