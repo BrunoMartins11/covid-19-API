@@ -34,16 +34,20 @@ def generate_csv(code):
                         row.append(data['timelineitems'][0][key]['total_recoveries'])
                         writer.writerow(row)
                         length-=1
-                        
+    
+    
+def write_to_csv(dataset):
+    dataset.to_csv("tmp.csv", index=True, header=True)                  
 
 def create_dataset(siglas):
     result = pd.DataFrame()
     for i in siglas:
-        t = generate_csv(i)
+        generate_csv(i)
         t_d = pd.read_csv('covid'+i+'.csv')
         tmp = [j+i for j in COLUMNS[1:]]
         tmp.insert(0,'Date')
         t_d.columns = tmp
         t_d.set_index('Date', inplace=True, drop=True)
         result = pd.concat([result,t_d], axis=1, sort=True)
+    result['Type'] = "original"
     return result

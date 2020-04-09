@@ -29,5 +29,6 @@ class ArimaModel:
 
         data_mod = data_mod.append(news)
         data_mod.set_index('Date', inplace=True, drop=True)
+        data_mod.columns = ["Arima"+code]
         
         return data_mod
