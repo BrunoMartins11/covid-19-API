@@ -9,7 +9,8 @@ class ExponentialSmootheningModel:
         tmp = dataset[[y+code]]
         history = [x for x in tmp.values]
         news = []
-        data_mod = dataset[[y+code]].reset_index()
+        data_mod = tmp.reset_index()
+        data_mod.columns = ["Date",y+code]
         for i in range(days):
             model = SimpleExpSmoothing(history)
             model_fit = model.fit()
@@ -26,5 +27,6 @@ class ExponentialSmootheningModel:
             
         data_mod = data_mod.append(news)
         data_mod.set_index('Date', inplace=True, drop=True)
+        data_mod.columns = ["Expo"+code]
         
         return data_mod

@@ -5,7 +5,7 @@ import pandas as pd
 import datetime
 
 class ArimaModel:
-    def __init__(self, order=(4,1,0)):
+    def __init__(self, order=(5,1,0)):
         self.order = order
     
     
@@ -13,7 +13,8 @@ class ArimaModel:
         tmp = dataset[[y+code]]
         history = [x for x in tmp.values]
         news = []
-        data_mod = dataset[[y+code]].reset_index()
+        data_mod = tmp.reset_index()
+        data_mod.columns = ["Date",y+code]
         for i in range(days):
             model = ARIMA(history[i:], order=self.order)
             model_fit = model.fit()
