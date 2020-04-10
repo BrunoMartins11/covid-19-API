@@ -19,7 +19,7 @@ class ProphetModel:
 
         dt = data_prophet_forecast[['ds','yhat']][-days:]
         dt = dt.rename(columns={'ds': 'Date', 'yhat': y+code})
-        dt['Date'] = dt['Date'].dt.strftime('%m/%d/%Y')
+        dt['Date'] = dt['Date'].dt.strftime('%m/%d/%y')
         dt.set_index('Date', inplace=True, drop=True)
         
         tmp = tmp.append(dt)

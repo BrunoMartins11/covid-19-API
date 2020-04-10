@@ -29,8 +29,6 @@ def country_csv():
     data = datasetMaker.create_dataset(countries)
     dataset_to_use = data[ [field+x for x in countries] ]
     dataset_to_send = pd.DataFrame()
-    
-    print(dataset_to_use)
 
     model1 = ArimaModel()
     model2 = ExponentialSmootheningModel()
