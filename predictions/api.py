@@ -45,7 +45,7 @@ def country_csv_prediction():
     return send_from_directory(".","tmp.csv", as_attachment=True)
 
 
-@app.route('/predictions_based_on', methos = ['GET'])
+@app.route('/predictions_based_on', methods = ['GET'])
 def country_based_on():
     base = request.args.get('base')
     target = request.args.get('target')
@@ -64,4 +64,4 @@ def country_based_on():
     datasetMaker.write_to_csv(fake_data, "tmpOn")
     return send_from_directory(".","tmpOn.csv", as_attachment=True)
 
-app.run(debug=True, port=5001)
+app.run(debug=True, port=5000)
