@@ -10,6 +10,7 @@ class LstmModel:
     
     def __init__(self, nodes=16):
         self.nodes = nodes
+        self.model = None
 
     def _create_dataset(self, dataset, look_back=1):
         dataX, dataY = [], []
@@ -49,3 +50,9 @@ class LstmModel:
         model.add(Dense(1, activation='relu'))
         model.compile(loss='mean_squared_error', optimizer='adam')
         history = model.fit(trainX, trainY, epochs=100, batch_size=32, validation_data=(testX,testY), shuffle=False)
+        
+    def train(self, dataset):
+        return
+    
+    def predict(self, dataset):
+        return

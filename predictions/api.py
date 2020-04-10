@@ -21,7 +21,7 @@ app = Flask(__name__)
 dir = os.path.dirname(__file__)
 
 @app.route('/predictions', methods = ['GET'])
-def country_csv():
+def country_csv_prediction():
     countries = request.args.get('country').split(",")
     time = request.args.get('days')
     field = request.args.get('field')
@@ -44,5 +44,24 @@ def country_csv():
     datasetMaker.write_to_csv(dataset_to_send, "tmp")
     return send_from_directory(".","tmp.csv", as_attachment=True)
 
+
+@app.route('/predictions_based_on', methos = ['GET'])
+def country_based_on():
+    base = request.args.get('base')
+    target = request.args.get('target')
+    field = request.args.get('field')
+    
+    data = datasetMaker.create_dataset([base,target])
+    dataset = data[ [field+x for x in [base,target]] ]
+    
+    train_data = dataset[[field+base]]
+    predict_data = dataset[[field+target]]
+    
+    lstm = LstmModel()
+    lstm.train(train_data)
+    fake_data = lstm.predict(predict_data)
+    
+    datasetMaker.write_to_csv(fake_data, "tmpOn")
+    return send_from_directory(".","tmpOn.csv", as_attachment=True)
 
 app.run(debug=True, port=5001)
