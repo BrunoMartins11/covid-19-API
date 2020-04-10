@@ -16,7 +16,7 @@ class ArimaModel:
         data_mod = tmp.reset_index()
         data_mod.columns = ["Date",y+code]
         for i in range(days):
-            model = ARIMA(history[i:], order=self.order)
+            model = ARIMA(history[i:], order=self.order,enforce_stationarity=False)
             model_fit = model.fit()
             output = model_fit.forecast()
             yhat = output[0]

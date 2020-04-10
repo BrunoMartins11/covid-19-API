@@ -37,8 +37,8 @@ def generate_csv(code):
                         length-=1
     
     
-def write_to_csv(dataset):
-    dataset.to_csv("tmp.csv", index=True, header=True)                  
+def write_to_csv(dataset, name):
+    dataset.to_csv(name + ".csv", index=True, header=True)                  
 
 def create_dataset(siglas):
     result = pd.DataFrame()
@@ -52,5 +52,5 @@ def create_dataset(siglas):
         t_d.columns = tmp
         t_d.set_index('Date', inplace=True, drop=True)
         result = pd.concat([result,t_d], axis=1, sort=True)
-    result['Type'] = "original"
+    result.fillna(0,inplace=True)
     return result

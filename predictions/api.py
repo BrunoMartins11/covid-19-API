@@ -34,20 +34,15 @@ def country_csv():
     model2 = ExponentialSmootheningModel()
     model3 = ProphetModel()
     
-    for i in countries:   
-        new_data = model1.predict_with_arima(dataset_to_use,i,field,int(time))
-        dataset_to_send = pd.concat([dataset_to_send,new_data], axis=1, sort=True)
-        new_data = model2.predict_with_exp(dataset_to_use,i,field,int(time))
-        dataset_to_send = pd.concat([dataset_to_send,new_data], axis=1, sort=True)
-        new_data = model3.predict_with_prophet(dataset_to_use,i,field,int(time))
-        dataset_to_send = pd.concat([dataset_to_send,new_data], axis=1, sort=True)
+    for i in countries:
+        new_data1 = model1.predict_with_arima(dataset_to_use,i,field,int(time))        
+        new_data2 = model2.predict_with_exp(dataset_to_use,i,field,int(time))
+        new_data3 = model3.predict_with_prophet(dataset_to_use,i,field,int(time))
 
+        dataset_to_send = pd.concat([dataset_to_send,new_data1, new_data2, new_data3], axis=1, sort=False)
 
-    
-    dataset_to_send.fillna(0, inplace=True)
-    datasetMaker.write_to_csv(dataset_to_send)
-    
+    datasetMaker.write_to_csv(dataset_to_send, "tmp")
     return send_from_directory(".","tmp.csv", as_attachment=True)
 
 
-app.run(debug=True, port=5000)
+app.run(debug=True, port=5001)
