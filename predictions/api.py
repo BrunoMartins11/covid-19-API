@@ -22,6 +22,8 @@ dir = os.path.dirname(__file__)
 
 @app.route('/predictions', methods = ['GET'])
 def country_csv_prediction():
+    header = response.headers
+    header['Access-Control-Allow-Origin'] = '*'
     countries = request.args.get('country').split(",")
     time = request.args.get('days')
     field = request.args.get('field')
@@ -33,9 +35,9 @@ def country_csv_prediction():
     model1 = ArimaModel()
     model2 = ExponentialSmootheningModel()
     model3 = ProphetModel()
-    
+
     for i in countries:
-        new_data1 = model1.predict_with_arima(dataset_to_use,i,field,int(time))        
+        new_data1 = model1.predict_with_arima(dataset_to_use,i,field,int(time))
         new_data2 = model2.predict_with_exp(dataset_to_use,i,field,int(time))
         new_data3 = model3.predict_with_prophet(dataset_to_use,i,field,int(time))
 
@@ -47,20 +49,22 @@ def country_csv_prediction():
 
 @app.route('/predictions_based_on', methods = ['GET'])
 def country_based_on():
+    header = response.headers
+    header['Access-Control-Allow-Origin'] = '*'
     base = request.args.get('base')
     target = request.args.get('target')
     field = request.args.get('field')
-    
+
     data = datasetMaker.create_dataset([base,target])
     dataset = data[ [field+x for x in [base,target]] ]
-    
+
     train_data = dataset[[field+base]]
     predict_data = dataset[[field+target]]
-    
+
     lstm = LstmModel()
     lstm.train(train_data)
     fake_data = lstm.predict(predict_data)
-    
+
     datasetMaker.write_to_csv(fake_data, "tmpOn")
     return send_from_directory(".","tmpOn.csv", as_attachment=True)
 
