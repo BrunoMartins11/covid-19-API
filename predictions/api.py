@@ -18,7 +18,7 @@ physical_devices = tf.config.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(physical_devices[0],True)
 
 app = Flask(__name__)
-cors = CORS(app)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 dir = os.path.dirname(__file__)
 
 @app.route('/predictions', methods = ['GET'])
