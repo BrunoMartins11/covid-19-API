@@ -1,4 +1,5 @@
 from flask import Flask, request,send_from_directory
+from flask_cors import CORS
 import os
 
 from Models.ArimaModel import ArimaModel
@@ -17,13 +18,11 @@ physical_devices = tf.config.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(physical_devices[0],True)
 
 app = Flask(__name__)
-
+cors = CORS(app)
 dir = os.path.dirname(__file__)
 
 @app.route('/predictions', methods = ['GET'])
 def country_csv_prediction():
-    header = response.headers
-    header['Access-Control-Allow-Origin'] = '*'
     countries = request.args.get('country').split(",")
     time = request.args.get('days')
     field = request.args.get('field')
@@ -49,8 +48,6 @@ def country_csv_prediction():
 
 @app.route('/predictions_based_on', methods = ['GET'])
 def country_based_on():
-    header = response.headers
-    header['Access-Control-Allow-Origin'] = '*'
     base = request.args.get('base')
     target = request.args.get('target')
     field = request.args.get('field')
