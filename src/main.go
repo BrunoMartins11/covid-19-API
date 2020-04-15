@@ -10,6 +10,7 @@ func main() {
 	http.HandleFunc("/countryData", getCountryOverallDataHandler)
 	http.HandleFunc("/overallData", getOverallDataHandler)
 	http.HandleFunc("/countries", getCountries)
+	http.HandleFunc("/predictions", getPredictionHandler)
 
 	// start the server on port 8000
 	log.Fatal(http.ListenAndServe(":8000", nil))

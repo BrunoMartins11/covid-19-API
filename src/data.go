@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"github.com/tidwall/gjson"
+	"io"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -75,4 +77,24 @@ func getCountryHistory(country string) interface{} {
 	response, _ := http.Get("https://thevirustracker.com/free-api?countryTimeline=" + country)
 	data, _ := ioutil.ReadAll(response.Body)
 	return gjson.Get(string(data), "timelineitems").Value()
+}
+
+func getPrediction(countries string, field string, days string) error {
+	resp, err := http.Get("localhost:5000/predictions?country=" + countries + "&field=" + field + "&days=" + days)
+	// Get the data
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	// Create the file
+	out, err := os.Create("covid.csv")
+	if err != nil {
+		return err
+	}
+	defer out.Close()
+
+	// Write the body to file
+	_, err = io.Copy(out, resp.Body)
+	return err
 }

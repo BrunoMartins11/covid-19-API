@@ -70,3 +70,16 @@ func getCountries(w http.ResponseWriter, req *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	io.WriteString(w, string(data))
 }
+
+func getPredictionHandler(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	countries := req.URL.Query().Get("country")
+	field := req.URL.Query().Get("field")
+	days := req.URL.Query().Get("days")
+	if countries == "" || field == "" || days == "" {
+		http.Error(w, "", http.StatusBadRequest)
+		return
+	}
+	getPrediction(countries, field, days)
+}

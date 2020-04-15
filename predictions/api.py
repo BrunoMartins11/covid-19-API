@@ -6,7 +6,6 @@ from Models.ArimaModel import ArimaModel
 from Models.ExponentialSmootheningModel import ExponentialSmootheningModel
 from Models.ProphetModel import ProphetModel
 from Models.LstmModel import LstmModel
-import tensorflow as tf
 import pandas as pd
 
 import dataset as datasetMaker
@@ -14,8 +13,6 @@ import dataset as datasetMaker
 
 import sys
 
-physical_devices = tf.config.list_physical_devices('GPU')
-tf.config.experimental.set_memory_growth(physical_devices[0],True)
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
