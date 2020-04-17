@@ -65,9 +65,9 @@ class LstmModel:
         
         tmp_data = dataset[[y+code]]
         tmp_data = tmp_data.reset_index()
+        tmp_data.columns = ['Date', y+code]
 
         data = np.append(trainX[-1][1:],np.array(trainY[-1].reshape(1,-1)))
-        print(data)
         results = []
         for i in range(days):
             prediction = self.model.predict(data.reshape(1,self.lag, 1))
