@@ -1,4 +1,3 @@
-#PROPHET
 from fbprophet import Prophet
 
 class ProphetModel:
@@ -22,7 +21,7 @@ class ProphetModel:
         dt['Date'] = dt['Date'].dt.strftime('%m/%d/%y')
         dt.set_index('Date', inplace=True, drop=True)
         
-        tmp = tmp.append(dt)
-        tmp.columns = ["Prophet"+code]
+        dt.columns = ["PROPHET"+code]
+        dt = dt.apply(round)
 
-        return tmp
+        return dt
