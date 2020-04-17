@@ -25,11 +25,11 @@ class ArimaModel:
             xn = datetime.datetime.strptime(data_mod.iloc[-1]['Date'], '%m/%d/%y') \
                 + datetime.timedelta(days=i+1)
             news.append(
-                pd.Series([xn.strftime("%m/%d/%y"), yhat], index=data_mod.columns)
+                pd.Series([xn.strftime("%m/%d/%y"), round(yhat)], index=data_mod.columns)
             )
 
-        data_mod = data_mod.append(news)
+        data_mod = pd.DataFrame(news)
         data_mod.set_index('Date', inplace=True, drop=True)
-        data_mod.columns = ["Arima"+code]
-        
+        data_mod.columns = ["ARIMA"+code]
+
         return data_mod
